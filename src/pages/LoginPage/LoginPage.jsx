@@ -2,11 +2,67 @@ import React from "react";
 import { Box, Container, Flex, Image, VStack } from "@chakra-ui/react";
 import NavbarAuth from "../../components/NavbarAuth/NavbarAuth";
 import { Text, Button } from "@chakra-ui/react";
+import useAuthStore from "../../store/authStore";
+import useShowToast from "../../hooks/useShowToast";
+import { db } from "../../firebase/firebase";
+import { updateDoc, doc } from "firebase/firestore";
 
 const LoginPage = () => {
+  const authUser = useAuthStore((state) => state.user);
+  const setAuthUser = useAuthStore((state) => state.setUser);
+  const showToast = useShowToast();
+
+  const handleLoginAsStudent = async () => {
+    if (!authUser) {
+      showToast("Error", "Please login to continue", "error");
+      return;
+    }
+
+    try {
+      const userDocRef = doc(db, "users", authUser.uid);
+
+      const updatedUser = {
+        ...authUser,
+        isStudent: true,
+        isTutor: false,
+      };
+
+      await updateDoc(userDocRef, updatedUser);
+      setAuthUser(updatedUser);
+      localStorage.setItem("user-info", JSON.stringify(updatedUser));
+      window.location.reload();
+    } catch (error) {
+      showToast("Error", error.message, "error");
+    }
+  };
+
+  const handleLoginAsTutor = async () => {
+    if (!authUser) {
+      showToast("Error", "Please login to continue", "error");
+      return;
+    }
+
+    try {
+      const userDocRef = doc(db, "users", authUser.uid);
+
+      const updatedUser = {
+        ...authUser,
+        isStudent: false,
+        isTutor: true,
+      };
+
+      await updateDoc(userDocRef, updatedUser);
+      setAuthUser(updatedUser);
+      localStorage.setItem("user-info", JSON.stringify(updatedUser));
+      window.location.reload();
+    } catch (error) {
+      showToast("Error", error.message, "error");
+    }
+  };
+
   return (
     <>
-      <NavbarAuth />
+      {authUser ? null : <NavbarAuth />}
       <Flex
         minH={"90vh"}
         justifyContent={"center"}
@@ -30,6 +86,7 @@ const LoginPage = () => {
                 colorScheme={"blue"}
                 color={"white"}
                 borderRadius={"full"}
+                onClick={handleLoginAsStudent} // first sign up, then login
               >
                 Login as a Student
               </Button>
@@ -49,6 +106,7 @@ const LoginPage = () => {
                 colorScheme={"blue"}
                 color={"white"}
                 borderRadius={"full"}
+                onClick={handleLoginAsTutor}
               >
                 Login as a tutor
               </Button>

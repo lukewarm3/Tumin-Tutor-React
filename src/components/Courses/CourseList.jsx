@@ -1,11 +1,24 @@
 import React from "react";
-import { Box, Flex, Avatar, VStack, Text, Button, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Avatar,
+  VStack,
+  Text,
+  Button,
+  Link,
+} from "@chakra-ui/react";
 import CourseCard from "./CourseCard";
 
 const CourseList = () => {
   return (
     <VStack px={6} gap={4}>
-      <Flex alignItems={"center"} justifyContent={"space-between"} w={"full"} mb={5}>
+      <Flex
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        w={"full"}
+        mb={5}
+      >
         <Text fontSize={20} fontWeight={"bold"}>
           Browse Courses
         </Text>

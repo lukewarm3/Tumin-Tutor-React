@@ -13,9 +13,15 @@ import { SlPaperPlane } from "react-icons/sl";
 import { FaSearch } from "react-icons/fa";
 import { useDisclosure } from "@chakra-ui/react";
 import Tutors from "../Tutors/Tutors";
+import { CgProfile } from "react-icons/cg";
+import useAuthStore from "../../store/authStore";
+import { IoLogOutOutline } from "react-icons/io5";
+import useLogout from "../../hooks/useLogout";
 
 const NavbarHome = () => {
+  const authUser = useAuthStore((state) => state.user);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { handleLogout, isLoggedOut } = useLogout();
   return (
     <Container
       minWidth={"full"}
@@ -51,12 +57,51 @@ const NavbarHome = () => {
             />
           </InputGroup>
         </Flex>
-        <Flex gap={4}>
-          <Button borderRadius={"full"} backgroundColor={"teal.900"} onClick={onOpen}>
-            <Flex gap={3}>
-              <SlPaperPlane color="white" />
-              <Text color={"white"} fontWeight={100}>
-                Request Tutor
+        <Flex gap={4} alignItems={"center"}>
+          <Text fontWeight={"bold"}>
+            Login As {authUser?.isStudent ? "Student" : "Tutor"}
+          </Text>
+          {authUser?.isTutor ? (
+            <Button
+              borderRadius={"full"}
+              backgroundColor={"white"}
+              border={"3px solid"}
+            >
+              <Flex gap={3} alignItems={"center"}>
+                <CgProfile borderColor="teal.900" />
+                <Text color={"teal.900"} fontWeight={100}>
+                  Edit Profile
+                </Text>
+              </Flex>
+            </Button>
+          ) : null}
+
+          {authUser?.isStudent ? (
+            <Button
+              borderRadius={"full"}
+              backgroundColor={"teal.900"}
+              onClick={onOpen}
+            >
+              <Flex gap={3} alignItems={"center"}>
+                <SlPaperPlane color="white" />
+                <Text color={"white"} fontWeight={100}>
+                  Request Tutor
+                </Text>
+              </Flex>
+            </Button>
+          ) : null}
+
+          <Button
+            borderRadius={"full"}
+            backgroundColor={"white"}
+            border={"3px solid"}
+            onClick={handleLogout}
+            isLoading={isLoggedOut}
+          >
+            <Flex gap={3} alignItems={"center"}>
+              <IoLogOutOutline />
+              <Text color={"teal.900"} fontWeight={900}>
+                Logout
               </Text>
             </Flex>
           </Button>

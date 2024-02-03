@@ -11,14 +11,14 @@ const PageLayout = ({ children }) => {
     <>
       <Flex display="column">
         {/* navbar */}
-        {pathname !== "/login" ? (
+        {pathname == "/" ? (
           <Flex>
             <NavbarHome />
           </Flex>
         ) : null}
         <Flex>
           {/* sidebar */}
-          {pathname !== "/login" ? (
+          {pathname == "/" ? (
             <Box w={{ base: "70px", md: "220px" }}>
               <Sidebar />
             </Box>
