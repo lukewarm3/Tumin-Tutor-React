@@ -16,7 +16,7 @@ function App() {
           <Route
             path="/"
             element={
-              authUser?.isStudent || authUser?.isTutor ? (
+              authUser?.logInAsStudent || authUser?.logInAsTutor ? (
                 <HomePage />
               ) : (
                 <Navigate to="/login" />
@@ -26,7 +26,7 @@ function App() {
           <Route
             path="/login"
             element={
-              !authUser?.isStudent && !authUser?.isTutor ? (
+              !authUser?.logInAsStudent && !authUser?.logInAsTutor ? (
                 <LoginPage />
               ) : (
                 <Navigate to="/" />

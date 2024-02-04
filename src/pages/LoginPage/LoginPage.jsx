@@ -23,8 +23,8 @@ const LoginPage = () => {
 
       const updatedUser = {
         ...authUser,
-        isStudent: true,
-        isTutor: false,
+        logInAsStudent: true,
+        logInAsTutor: false,
       };
 
       await updateDoc(userDocRef, updatedUser);
@@ -47,8 +47,8 @@ const LoginPage = () => {
 
       const updatedUser = {
         ...authUser,
-        isStudent: false,
-        isTutor: true,
+        logInAsStudent: false,
+        logInAsTutor: true,
       };
 
       await updateDoc(userDocRef, updatedUser);

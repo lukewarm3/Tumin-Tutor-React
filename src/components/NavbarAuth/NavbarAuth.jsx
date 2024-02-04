@@ -40,7 +40,8 @@ const NavbarAuth = () => {
           profilePicURL: newUser.user.photoURL,
           createdAt: Date.now(),
           groups: [],
-          isStudent: false,
+          logInAsStudent: false,
+          logInAsTutor: false,
           isTutor: false,
         };
         await setDoc(doc(db, "users", newUser.user.uid), userDoc);

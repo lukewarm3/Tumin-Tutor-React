@@ -17,10 +17,20 @@ import { CgProfile } from "react-icons/cg";
 import useAuthStore from "../../store/authStore";
 import { IoLogOutOutline } from "react-icons/io5";
 import useLogout from "../../hooks/useLogout";
+import EditProfile from "../EditProfile/EditProfile";
 
 const NavbarHome = () => {
   const authUser = useAuthStore((state) => state.user);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isFirstModalOpen,
+    onOpen: onFirstModalOpen,
+    onClose: onFirstModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isSecondModalOpen,
+    onOpen: onSecondModalOpen,
+    onClose: onSecondModalClose,
+  } = useDisclosure();
   const { handleLogout, isLoggedOut } = useLogout();
   return (
     <Container
@@ -59,13 +69,14 @@ const NavbarHome = () => {
         </Flex>
         <Flex gap={4} alignItems={"center"}>
           <Text fontWeight={"bold"}>
-            Login As {authUser?.isStudent ? "Student" : "Tutor"}
+            Login As {authUser?.logInAsStudent ? "Student" : "Tutor"}
           </Text>
-          {authUser?.isTutor ? (
+          {authUser?.logInAsTutor ? (
             <Button
               borderRadius={"full"}
               backgroundColor={"white"}
               border={"3px solid"}
+              onClick={onSecondModalOpen}
             >
               <Flex gap={3} alignItems={"center"}>
                 <CgProfile borderColor="teal.900" />
@@ -76,11 +87,11 @@ const NavbarHome = () => {
             </Button>
           ) : null}
 
-          {authUser?.isStudent ? (
+          {authUser?.logInAsStudent ? (
             <Button
               borderRadius={"full"}
               backgroundColor={"teal.900"}
-              onClick={onOpen}
+              onClick={onFirstModalOpen}
             >
               <Flex gap={3} alignItems={"center"}>
                 <SlPaperPlane color="white" />
@@ -107,7 +118,12 @@ const NavbarHome = () => {
           </Button>
         </Flex>
       </Flex>
-      {isOpen && <Tutors isOpen={isOpen} onClose={onClose} />}
+      {isFirstModalOpen && (
+        <Tutors isOpen={isFirstModalOpen} onClose={onFirstModalClose} />
+      )}
+      {isSecondModalOpen && (
+        <EditProfile isOpen={isSecondModalOpen} onClose={onSecondModalClose} />
+      )}
     </Container>
   );
 };
