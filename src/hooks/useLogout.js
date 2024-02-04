@@ -18,7 +18,7 @@ const useLogout = () => {
       const updatedUser = {
         ...authUser,
         logInAsStudent: false,
-        logInAsStudent: false,
+        logInAsTutor: false,
       };
 
       await updateDoc(userDocRef, updatedUser);
