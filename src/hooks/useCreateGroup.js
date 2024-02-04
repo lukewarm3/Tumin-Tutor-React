@@ -24,6 +24,18 @@ const useCreateGroup = () => {
       showToast("Error", "Please select an image", "error");
       return;
     }
+    if (!inputs.groupName) {
+      showToast("Error", "Please give a group name", "error");
+      return;
+    }
+    if (!inputs.courseName) {
+      showToast("Error", "Please give a course name", "error");
+      return;
+    }
+    if (!inputs.description) {
+      showToast("Error", "Please give a description", "error");
+      return;
+    }
     setIsLoading(true);
 
     const newGroup = {
@@ -34,7 +46,13 @@ const useCreateGroup = () => {
       createdBy: authUser.uid,
       tutor: "",
       imgURL: "",
-      students: [{ id: authUser.uid, fullName: authUser.fullName, email: authUser.email }],
+      students: [
+        {
+          id: authUser.uid,
+          fullName: authUser.fullName,
+          email: authUser.email,
+        },
+      ],
     };
 
     try {

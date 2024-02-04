@@ -8,6 +8,7 @@ import {
   InputGroup,
   Input,
   InputLeftElement,
+  Avatar,
 } from "@chakra-ui/react";
 import { SlPaperPlane } from "react-icons/sl";
 import { FaSearch } from "react-icons/fa";
@@ -71,6 +72,7 @@ const NavbarHome = () => {
           <Text fontWeight={"bold"}>
             Login As {authUser?.logInAsStudent ? "Student" : "Tutor"}
           </Text>
+          <Avatar size="md" src={authUser.profilePicURL} />
           {authUser?.logInAsTutor ? (
             <Button
               borderRadius={"full"}

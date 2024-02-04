@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Text, Button} from "@chakra-ui/react";
+import { Box, Flex, Text, Button } from "@chakra-ui/react";
 import {
   FormControl,
   FormLabel,
@@ -135,12 +135,11 @@ const StudyGroupList = () => {
                       hidden
                       ref={fileRef}
                       onChange={handleImageChange}
-                      required
                     />
                   </Stack>
                 </FormControl>
 
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel fontSize={"sm"}>Group Name</FormLabel>
                   <Input
                     name={"groupName"}
@@ -149,15 +148,14 @@ const StudyGroupList = () => {
                     type={"text"}
                     value={formData.groupName}
                     onChange={handleChange}
-                    required
                   />
                 </FormControl>
 
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel fontSize={"sm"}>Course Name</FormLabel>
                   <Input
                     name={"courseName"}
-                    placeholder={"eg. WR 13100-Writing and Rhetoric"}
+                    placeholder={"eg. WR 13100"}
                     size={"sm"}
                     type={"text"}
                     value={formData.courseName}
@@ -166,7 +164,7 @@ const StudyGroupList = () => {
                   />
                 </FormControl>
 
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel fontSize={"sm"}>Description</FormLabel>
                   <Input
                     name={"description"}
