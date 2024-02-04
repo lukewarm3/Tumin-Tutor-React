@@ -6,9 +6,9 @@ const useGroupStore = create((set) => ({
   // the functions that manipulate the state
   createGroup: (group) => set((state) => ({ groups: [group, ...state.groups] })),
 
-  //deletePost
-//   deletePost: (id) =>
-//     set((state) => ({ posts: state.posts.filter((post) => post.id !== id) })),
+  //deleteGroup
+  deleteGroup: (id) =>
+    set((state) => ({ groups: state.groups.filter((group) => group.id !== id) })),
 
   //setgroups
   setGroups: (groups) => set({ groups }),

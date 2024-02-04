@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoChatbubbleOutline } from "react-icons/io5";
+import { MdDelete } from "react-icons/md";
 import { PiBooks } from "react-icons/pi";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import {
@@ -26,12 +27,18 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { BsPeopleFill } from "react-icons/bs";
+import useDeleteGroup from "../../hooks/useDeleteGroup";
+import useAuthStore from "../../store/authStore";
 
 const StudyGroup = ({ group }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isDeleting, handleDeleteGroup } = useDeleteGroup();
+  const authUser = useAuthStore((state) => state.user);
+
   return (
     <>
-      <GridItem colSpan={1}
+      <GridItem
+        colSpan={1}
         p={5}
         boxShadow="base"
         rounded="md"
@@ -102,7 +109,21 @@ const StudyGroup = ({ group }) => {
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{group.courseName}</ModalHeader>
+          <ModalHeader>
+            <Flex alignItems={"center"} gap={3}>
+              {group.courseName}{" "}
+              {authUser.uid === group.createdBy && (
+                <Button
+                  bg="transparent"
+                  _hover={{ bg: "transparent" }}
+                  onClick={() => handleDeleteGroup(group)}
+                  isLoading={isDeleting}
+                >
+                  <MdDelete size={20} />
+                </Button>
+              )}
+            </Flex>
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex direction="column" width="full" gap={3}>
@@ -116,6 +137,7 @@ const StudyGroup = ({ group }) => {
               >
                 <BsPeopleFill size={20} />
                 <Text fontSize={15}>
+                  {group.students.length}{" "}
                   {group.students.length <= 1 ? "member" : "members"} •{" "}
                 </Text>
                 <FaChalkboardTeacher size={20} />

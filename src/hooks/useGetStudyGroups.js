@@ -37,7 +37,7 @@ const useGetStudyGroups = () => {
     };
 
     if (authUser) getStudyGroups();
-  }, [authUser, showToast, setGroups]);
+  }, [authUser, showToast, setGroups, groups]);
 
   return { isLoading, groups };
 };

@@ -32,9 +32,9 @@ const useCreateGroup = () => {
       description: inputs.description,
       createdAt: Date.now(),
       createdBy: authUser.uid,
-      tutor:"",
+      tutor: "",
       imgURL: "",
-      students: [],
+      students: [{ id: authUser.uid, fullName: authUser.fullName, email: authUser.email }],
     };
 
     try {

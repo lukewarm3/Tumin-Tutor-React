@@ -80,7 +80,7 @@ const StudyGroupList = () => {
           </Button>
         </Flex>
 
-        {isLoading && (
+        {isUpdating && (
           <Grid gap={10} templateColumns="repeat(3, 1fr)">
             {[0, 1, 2, 3, 4, 5].map((_, index) => (
               <GridItem colSpan={1}>
@@ -96,7 +96,7 @@ const StudyGroupList = () => {
           </Grid>
         )}
 
-        {!isLoading && (
+        {!isUpdating && (
           <Grid gap={10} templateColumns="repeat(3, 1fr)">
             {groups.map((group) => (
               <StudyGroup key={group.id} group={group} />
