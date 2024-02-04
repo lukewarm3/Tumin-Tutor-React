@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Text, Button, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, Text, Button} from "@chakra-ui/react";
 import {
   FormControl,
   FormLabel,
@@ -8,20 +8,23 @@ import {
   Heading,
   Center,
   Avatar,
+  Grid,
+  Skeleton,
+  SkeletonCircle,
+  GridItem,
 } from "@chakra-ui/react";
 import StudyGroup from "./StudyGroup";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
 import usePreviewimg from "../../hooks/usePreviewimg";
 import useCreateGroup from "../../hooks/useCreateGroup";
+import useGetStudyGroups from "../../hooks/useGetStudyGroups";
 
 const StudyGroupList = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,6 +37,7 @@ const StudyGroupList = () => {
   const { handleImageChange, selectedFile, setSelectedFile } = usePreviewimg();
 
   const { isLoading, handleCreateGroup } = useCreateGroup();
+  const { isUpdating, groups } = useGetStudyGroups();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,12 +79,30 @@ const StudyGroupList = () => {
             <Text fontWeight={200}>Create Study Group</Text>
           </Button>
         </Flex>
-        <SimpleGrid spacing={10} minChildWidth="350px">
-          <StudyGroup />
-          <StudyGroup />
-          <StudyGroup />
-          <StudyGroup />
-        </SimpleGrid>
+
+        {isLoading && (
+          <Grid gap={10} templateColumns="repeat(3, 1fr)">
+            {[0, 1, 2, 3, 4, 5].map((_, index) => (
+              <GridItem colSpan={1}>
+                <Flex alignItems={"center"} gap={3}>
+                  <SkeletonCircle size="12" />
+                  <Flex flexDirection={"column"} gap={3}>
+                    <Skeleton height="10px" width="200px" />
+                    <Skeleton height="10px" width="300px" />
+                  </Flex>
+                </Flex>
+              </GridItem>
+            ))}
+          </Grid>
+        )}
+
+        {!isLoading && (
+          <Grid gap={10} templateColumns="repeat(3, 1fr)">
+            {groups.map((group) => (
+              <StudyGroup key={group.id} group={group} />
+            ))}
+          </Grid>
+        )}
       </Flex>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>

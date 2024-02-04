@@ -32,6 +32,9 @@ const useCreateGroup = () => {
       description: inputs.description,
       createdAt: Date.now(),
       createdBy: authUser.uid,
+      tutor:"",
+      imgURL: "",
+      students: [],
     };
 
     try {

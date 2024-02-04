@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Box,
+  GridItem,
   Flex,
   Avatar,
   VStack,
@@ -27,11 +27,11 @@ import {
 } from "@chakra-ui/react";
 import { BsPeopleFill } from "react-icons/bs";
 
-const StudyGroup = () => {
+const StudyGroup = ({ group }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Box
+      <GridItem colSpan={1}
         p={5}
         boxShadow="base"
         rounded="md"
@@ -44,16 +44,24 @@ const StudyGroup = () => {
           {/* title */}
           <Flex alignItems={"center"} gap={20}>
             <Flex gap={5}>
-              <Avatar src="/tutorImage.png" size="md" />
+              <Avatar src={group.imgURL} size="md" />
               <VStack alignItems={"flex-start"} gap={0}>
                 <Text fontWeight="bold" fontSize={"lg"}>
-                  Blue Domers
+                  {group.groupName}
                 </Text>
                 <Text fontSize={"sm"}>
-                  7 members •{" "}
-                  <Text as={"span"} fontWeight={"bold"} color={"green.400"}>
-                    Open
-                  </Text>
+                  {group.students.length}{" "}
+                  {group.students.length <= 1 ? "member" : "members"} •{" "}
+                  {group.students.length <= 8 ? (
+                    <Text as={"span"} fontWeight={"bold"} color={"green.400"}>
+                      Open
+                    </Text>
+                  ) : (
+                    <Text as={"span"} fontWeight={"bold"} color={"red.400"}>
+                      {" "}
+                      Closed{" "}
+                    </Text>
+                  )}
                 </Text>
               </VStack>
             </Flex>
@@ -81,24 +89,20 @@ const StudyGroup = () => {
           <Flex flexWrap={"wrap"} gap={3}>
             <Flex alignItems={"center"} gap={2}>
               <PiBooks size={20} />
-              <Text fontSize={15}>30100 - Accountancy</Text>
-            </Flex>
-            <Flex alignItems={"center"} gap={2}>
-              <PiBooks size={20} />
-              <Text fontSize={15}>English</Text>
+              <Text fontSize={15}>{group.courseName}</Text>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
               <FaChalkboardTeacher size={20} />
-              <Text fontSize={15}>Gursky</Text>
+              <Text fontSize={15}>{group.tutor}</Text>
             </Flex>
           </Flex>
         </Flex>
-      </Box>
+      </GridItem>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>30100 - Accountancy</ModalHeader>
+          <ModalHeader>{group.courseName}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex direction="column" width="full" gap={3}>
@@ -111,15 +115,14 @@ const StudyGroup = () => {
                 mb={5}
               >
                 <BsPeopleFill size={20} />
-                <Text fontSize={15}>35 Members • </Text>
+                <Text fontSize={15}>
+                  {group.students.length <= 1 ? "member" : "members"} •{" "}
+                </Text>
                 <FaChalkboardTeacher size={20} />
-                <Text fontSize={15}>Gursky</Text>
+                <Text fontSize={15}>{group.tutor}</Text>
               </Flex>
               {/* study group description */}
-              <Text whiteSpace="pre-line">
-                fljasl asjdflsdjf ljsdlfjal skdfj jlkjasf ljaslkdfj jfljasdfl;
-                jlkasfj aslkjf {"\n"} {"\n"} asdfasdf
-              </Text>
+              <Text whiteSpace="pre-line">{group.description}</Text>
 
               <Divider my={5} bg={"black"} borderColor={"gray.400"} />
 
