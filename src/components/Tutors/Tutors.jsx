@@ -19,8 +19,13 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import TutorInfo from "./TutorInfo";
+import useGetTutors from "../../hooks/useGetTutors";
 
 const Tutors = ({ isOpen, onClose }) => {
+  const {isLoading, tutors} = useGetTutors();
+
+  if (isLoading) return null;
+  
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -29,10 +34,10 @@ const Tutors = ({ isOpen, onClose }) => {
         <ModalCloseButton />
         <ModalBody>
           <Flex direction="column" width="full" py={3} gap={3} maxHeight={"600px"} overflowY={"auto"} pr={3}>
-            <TutorInfo />
-            <TutorInfo />
-            <TutorInfo />
-            <TutorInfo />
+            {!isLoading && tutors.map((tutor) => (
+              <TutorInfo key={tutor.id} tutor={tutor} />
+            ))}
+            
           </Flex>
         </ModalBody>
       </ModalContent>

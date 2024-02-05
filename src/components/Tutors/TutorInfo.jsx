@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Flex,
   Text,
@@ -17,23 +17,23 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
-const TutorInfo = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+const TutorInfo = ({ tutor }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       <Flex direction={"column"} w="full" cursor={"pointer"} onClick={onOpen}>
         <Flex justifyContent={"space-between"} alignItems={"center"} w="full">
           <Flex gap={5} alignItems={"center"}>
-            <Avatar size={"lg"} src="/tutorImage.png" />
+            <Avatar size={"lg"} src={tutor.profilePicURL} />
             <Flex direction={"column"} alignItems={"flex-start"}>
               <Text fontSize={20} fontWeight={"bold"}>
-                John Doe
+                {tutor.fullName}
               </Text>
-              <Text>Mathematics</Text>
+              <Text>{tutor.tutorInfo}</Text>
             </Flex>
           </Flex>
           <Button px={7} bg={"transparent"} border={"1px solid black"}>
@@ -51,17 +51,17 @@ const TutorInfo = () => {
             <Flex direction="column" width="full" py={3} gap={3}>
               {/* Tutor Information */}
               <Flex justifyContent={"flex-start"} alignItems={"center"}>
-                <Avatar src="/tutorImage.png" size="lg" />
+                <Avatar src={tutor.profilePicURL} size="lg" />
               </Flex>
               <Text fontSize={"lg"} fontWeight={"bold"}>
-                Gursky
+                {tutor.fullName}
               </Text>
-              <Text fontSize={"sm"}>Chemistry Major</Text>
+              <Text fontSize={"sm"}>{tutor.tutorInfo}</Text>
               <Text>
                 <Text as={"span"} fontWeight={"bold"}>
                   Available:
                 </Text>{" "}
-                Monday - Firday, 9:00am - 11:00am
+                {tutor.schedule}
               </Text>
 
               <Divider my={5} bg={"black"} borderColor={"gray.400"} />
@@ -130,6 +130,6 @@ const TutorInfo = () => {
       </Modal>
     </>
   );
-}
+};
 
-export default TutorInfo
+export default TutorInfo;
