@@ -29,11 +29,13 @@ import {
 import { BsPeopleFill } from "react-icons/bs";
 import useDeleteGroup from "../../hooks/useDeleteGroup";
 import useAuthStore from "../../store/authStore";
+import useJoinGroup from "../../hooks/useJoinGroup";
 
 const StudyGroup = ({ group }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isDeleting, handleDeleteGroup } = useDeleteGroup();
   const authUser = useAuthStore((state) => state.user);
+  const { isUpdating, isJoinning, handleJoinGroup } = useJoinGroup(group.id);
 
   return (
     <>
@@ -204,9 +206,27 @@ const StudyGroup = ({ group }) => {
             >
               Cancel
             </Button>
-            <Button color="white" bg="teal.900" fontWeight={200}>
-              Join this study group
-            </Button>
+            {!isJoinning ? (
+              <Button
+                color="white"
+                bg="teal.900"
+                fontWeight={200}
+                onClick={handleJoinGroup}
+                isLoading={isUpdating}
+              >
+                Join this study group
+              </Button>
+            ) : (
+              <Button
+                color="white"
+                bg="teal.900"
+                fontWeight={200}
+                onClick={handleJoinGroup}
+                isLoading={isUpdating}
+              >
+                Leave this study group
+              </Button>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>

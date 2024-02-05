@@ -9,13 +9,14 @@ import {
   arrayUnion,
   doc,
 } from "firebase/firestore";
-import { db, storage } from "../firebase/firebase";
+import { auth, db, storage } from "../firebase/firebase";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 
 const useCreateGroup = () => {
   const showToast = useShowToast();
   const [isLoading, setIsLoading] = useState(false);
   const authUser = useAuthStore((state) => state.user);
+  const setAuthUser = useAuthStore((state) => state.setUser);
   const createGroup = useGroupStore((state) => state.createGroup);
 
   const handleCreateGroup = async (selectedFile, inputs) => {
@@ -46,13 +47,7 @@ const useCreateGroup = () => {
       createdBy: authUser.uid,
       tutor: "",
       imgURL: "",
-      students: [
-        {
-          id: authUser.uid,
-          fullName: authUser.fullName,
-          email: authUser.email,
-        },
-      ],
+      students: [authUser.uid],
     };
 
     try {
@@ -60,20 +55,31 @@ const useCreateGroup = () => {
       const userDocRef = doc(db, "users", authUser.uid);
       const imageRef = ref(storage, `groups/${groupDocRef.id}`);
 
+      // update user firebase
       await updateDoc(userDocRef, {
         groups: arrayUnion(groupDocRef.id),
       });
+
+      // upload image to storage
       await uploadString(imageRef, selectedFile, "data_url");
 
       const donwloadURL = await getDownloadURL(imageRef);
 
+      // update group firebase
       await updateDoc(groupDocRef, {
         imgURL: donwloadURL,
       });
 
       newGroup.imgURL = donwloadURL;
 
+      // update global state of groups
       createGroup(newGroup);
+
+      // update global state of user
+      setAuthUser({
+        ...authUser,
+        groups: [...authUser.groups, groupDocRef.id],
+      });
 
       localStorage.setItem(
         "user-info",
