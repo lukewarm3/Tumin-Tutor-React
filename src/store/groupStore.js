@@ -38,6 +38,29 @@ const useGroupStore = create((set) => ({
           : group
       ),
     })),
+
+    //addTutor
+  addTutor: (groupId, tutor) =>
+    set((state) => ({
+      groups: state.groups.map((group) =>
+        group.id === groupId
+          ? { ...group, tutor: tutor }
+          : group
+      ),
+    })),
+
+    //removeTutor
+  removeTutor: (groupId) =>
+    set((state) => ({
+      groups: state.groups.map((group) =>
+        group.id === groupId
+          ? {
+              ...group,
+              tutor: ""
+            }
+          : group
+      ),
+    })),
 }));
 
 export default useGroupStore;

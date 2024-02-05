@@ -43,6 +43,7 @@ const NavbarAuth = () => {
           logInAsStudent: false,
           logInAsTutor: false,
           isTutor: false,
+          tutorGroup: "",
         };
         await setDoc(doc(db, "users", newUser.user.uid), userDoc);
         localStorage.setItem("user-info", JSON.stringify(userDoc));

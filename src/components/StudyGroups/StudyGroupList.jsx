@@ -81,7 +81,10 @@ const StudyGroupList = () => {
         </Flex>
 
         {isUpdating && (
-          <Grid gap={10} templateColumns="repeat(3, 1fr)">
+          <Grid
+            gap={10}
+            templateColumns={{ base: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
+          >
             {[0, 1, 2, 3, 4, 5].map((_, index) => (
               <GridItem colSpan={1}>
                 <Flex alignItems={"center"} gap={3}>
@@ -97,7 +100,14 @@ const StudyGroupList = () => {
         )}
 
         {!isUpdating && (
-          <Grid gap={10} templateColumns="repeat(3, 1fr)">
+          <Grid
+            gap={10}
+            templateColumns={{
+              base: "repeat(1, 1fr)",
+              sm: "repeat(2, 1fr)",
+              "2xl": "repeat(3, 1fr)",
+            }}
+          >
             {groups.map((group) => (
               <StudyGroup key={group.id} group={group} />
             ))}

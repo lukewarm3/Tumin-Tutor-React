@@ -31,8 +31,18 @@ const useEditProfile = () => {
         fullName: inputs.fullName || authUser.fullName,
         tutorInfo: inputs.tutorInfo || authUser.tutorInfo,
         schedule: inputs.schedule || authUser.schedule,
-        isTutor: true,
       };
+
+      if (updatedUser.tutorInfo === "" || updatedUser.schedule === "") {
+        showToast(
+          "Error",
+          "Reminder: you need to fill in all fields in order to be the tutor",
+          "error"
+        );
+        updatedUser.isTutor = false;
+      } else {
+        updatedUser.isTutor = true;
+      }
 
       await updateDoc(userDocRef, updatedUser);
       localStorage.setItem("user-info", JSON.stringify(updatedUser));

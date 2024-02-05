@@ -80,7 +80,7 @@ const EditProfile = ({ isOpen, onClose }) => {
                   placeholder={"eg. Chemistry Major"}
                   size={"sm"}
                   type={"text"}
-                  value={formData.tutorInfo || authUser.tutorInfo}
+                  value={formData.tutorInfo}
                   onChange={handleChange}
                 />
               </FormControl>
@@ -92,7 +92,7 @@ const EditProfile = ({ isOpen, onClose }) => {
                   placeholder={"eg. MWF 10:00 - 11:00 AM"}
                   size={"sm"}
                   type={"text"}
-                  value={formData.schedule || authUser.schedule}
+                  value={formData.schedule}
                   onChange={handleChange}
                 />
               </FormControl>

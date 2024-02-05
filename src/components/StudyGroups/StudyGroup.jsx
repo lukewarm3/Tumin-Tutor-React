@@ -30,12 +30,16 @@ import { BsPeopleFill } from "react-icons/bs";
 import useDeleteGroup from "../../hooks/useDeleteGroup";
 import useAuthStore from "../../store/authStore";
 import useJoinGroup from "../../hooks/useJoinGroup";
+import useBeTutor from "../../hooks/useBeTutor";
+import useGetTutorNameById from "../../hooks/useGetTutorNameById";
 
 const StudyGroup = ({ group }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isDeleting, handleDeleteGroup } = useDeleteGroup();
   const authUser = useAuthStore((state) => state.user);
   const { isUpdating, isJoinning, handleJoinGroup } = useJoinGroup(group.id);
+  const { isUpdating2, isBeingTutor, handleBeTutor } = useBeTutor(group.id);
+  const { isLoading, tutorName } = useGetTutorNameById(group.tutor);
 
   return (
     <>
@@ -102,7 +106,7 @@ const StudyGroup = ({ group }) => {
             </Flex>
             <Flex alignItems={"center"} gap={2}>
               <FaChalkboardTeacher size={20} />
-              <Text fontSize={15}>{group.tutor}</Text>
+              <Text fontSize={15}>{tutorName}</Text>
             </Flex>
           </Flex>
         </Flex>
@@ -143,7 +147,7 @@ const StudyGroup = ({ group }) => {
                   {group.students.length <= 1 ? "member" : "members"} •{" "}
                 </Text>
                 <FaChalkboardTeacher size={20} />
-                <Text fontSize={15}>{group.tutor}</Text>
+                <Text fontSize={15}>{tutorName}</Text>
               </Flex>
               {/* study group description */}
               <Text whiteSpace="pre-line">{group.description}</Text>
@@ -206,27 +210,50 @@ const StudyGroup = ({ group }) => {
             >
               Cancel
             </Button>
-            {!isJoinning ? (
-              <Button
-                color="white"
-                bg="teal.900"
-                fontWeight={200}
-                onClick={handleJoinGroup}
-                isLoading={isUpdating}
-              >
-                Join this study group
-              </Button>
-            ) : (
-              <Button
-                color="white"
-                bg="teal.900"
-                fontWeight={200}
-                onClick={handleJoinGroup}
-                isLoading={isUpdating}
-              >
-                Leave this study group
-              </Button>
-            )}
+            {authUser.logInAsStudent &&
+              (!isJoinning ? (
+                <Button
+                  color="white"
+                  bg="teal.900"
+                  fontWeight={200}
+                  onClick={handleJoinGroup}
+                  isLoading={isUpdating}
+                >
+                  Join this study group
+                </Button>
+              ) : (
+                <Button
+                  color="white"
+                  bg="teal.900"
+                  fontWeight={200}
+                  onClick={handleJoinGroup}
+                  isLoading={isUpdating}
+                >
+                  Leave this study group
+                </Button>
+              ))}
+            {authUser.logInAsTutor &&
+              (!isBeingTutor ? (
+                <Button
+                  color="white"
+                  bg="teal.900"
+                  fontWeight={200}
+                  onClick={handleBeTutor}
+                  isLoading={isUpdating2}
+                >
+                  Be the tutor
+                </Button>
+              ) : (
+                <Button
+                  color="white"
+                  bg="teal.900"
+                  fontWeight={200}
+                  onClick={handleBeTutor}
+                  isLoading={isUpdating2}
+                >
+                  Stop being the tutor
+                </Button>
+              ))}
           </ModalFooter>
         </ModalContent>
       </Modal>
